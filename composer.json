@@ -1,0 +1,20 @@
+{
+  "name": "joshuand1990/form-helper",
+  "description": "generate the from tags",
+  "require": {
+    "illuminate/support": "*"
+  },
+  "authors": [
+    {
+      "name": "Joshua DSouza",
+      "email": "joshuand1990@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Joshua\\Helpers\\": "src/"
+    },
+    "files": [ "src/forms.php" ]
+  },
+  "minimum-stability": "stable"
+}
