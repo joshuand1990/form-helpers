@@ -7,7 +7,18 @@
  */
 
 
-use Illuminate\Support\HtmlString as Expression;
+use Illuminate\Support\HtmlString;
+
+if( ! function_exists('html')){
+    /**
+     * @param $content
+     * @return HtmlString
+     */
+    function html($content)
+    {
+        return new HtmlString($content);
+    }
+}
 
 if (! function_exists('select_year_range')) {
 
@@ -15,7 +26,7 @@ if (! function_exists('select_year_range')) {
      * @param null $start_year
      * @param null $end_year
      * @param null $selected
-     * @return Expression
+     * @return HtmlString
      * @author Joshua
      */
     function select_year_range($start_year = null, $end_year = null, $selected = null)
@@ -27,10 +38,10 @@ if (! function_exists('select_year_range')) {
 
         foreach ($years as $year) {
             $is_selected = $selected == $year ? 'selected' : '';
-            $options[]   = new Expression("<option value='{$year}' {$is_selected}>{$year}</option>");
+            $options[]   = html("<option value='{$year}' {$is_selected}>{$year}</option>");
         }
         $html = implode('', $options);
-        return new Expression("<select name='year' id='year' class=>{$html}</select>");
+        return html("<select name='year' id='year' class=>{$html}</select>");
     }
 }
 
@@ -40,26 +51,26 @@ if (! function_exists('form_start')) {
      * @param string $method
      * @param string $action
      * @param array $options
-     * @return Expression
+     * @return HtmlString
      * @author Joshua
      */
     function form_start($method = 'GET', $action = '', $options = [])
     {
         $attributes = options_to_html_attributes($options);
 
-        return new Expression("<form method='{$method}' action='{$action}' {$attributes}>");
+        return html("<form method='{$method}' action='{$action}' {$attributes}>");
     }
 }
 
 if (! function_exists('form_end')) {
     /**
      * Create a close form tag
-     * @return Expression
+     * @return HtmlString
      * @author Joshua
      */
     function form_end()
     {
-        return new Expression('</form>');
+        return html('</form>');
     }
 }
 
@@ -68,7 +79,7 @@ if (! function_exists('form_submit')) {
      * Create a form submit
      * @param $text
      * @param array $options
-     * @return Expression
+     * @return HtmlString
      * @author Joshua
      */
     function form_submit($text = 'Submit', $options = [])
@@ -84,13 +95,13 @@ if (! function_exists('button')){
      * @param string $type
      * @param string $text
      * @param array $options
-     * @return Expression
+     * @return HtmlString
      * @author Joshua
      */
     function button($type = 'button', $text = 'Button', $options = [])
     {
         $html = options_to_html_attributes($options);
-        return new Expression("<button type='{$type}' $html>{$text}</button>");
+        return html("<button type='{$type}' $html>{$text}</button>");
     }
 }
 
@@ -100,14 +111,14 @@ if (! function_exists('form_input')) {
      * create a form input
      * @param string $type
      * @param array $options
-     * @return Expression
+     * @return HtmlString
      * @author Joshua
      */
     function form_input($type = 'text', $options = [])
     {
         $html = options_to_html_attributes($options);
 
-        return new Expression("<input type='{$type}' {$html} >");
+        return html("<input type='{$type}' {$html} >");
     }
 }
 
@@ -115,7 +126,7 @@ if (! function_exists('form_text')) {
     /**
      * Create a text input
      * @param $options
-     * @return Expression
+     * @return HtmlString
      * @author Joshua
      */
     function form_text($options = [])
@@ -124,18 +135,31 @@ if (! function_exists('form_text')) {
     }
 }
 
-if(! function_exists('form_textarea'))
+if (! function_exists('form_hidden')) {
+    /**
+     * Create a text input
+     * @param $options
+     * @return HtmlString
+     * @author Joshua
+     */
+    function form_hidden($options = [])
+    {
+        return form_input('hidden', $options);
+    }
+}
+
+if (! function_exists('form_textarea'))
 {
     /**
      * @param array $options
-     * @return Expression
+     * @return HtmlString
      * @author Joshua
      */
     function form_textarea($options = [])
     {
         $html = options_to_html_attributes($options);
 
-        return new Expression("<textarea {$html}></textarea>");
+        return html("<textarea {$html}></textarea>");
     }
 }
 
@@ -145,14 +169,14 @@ if (! function_exists('anchor')) {
      * @param $href
      * @param $text
      * @param $options
-     * @return Expression
+     * @return HtmlString
      * @author Joshua
      */
     function anchor($href = '#', $text = 'anchor', $options = [])
     {
         $html = options_to_html_attributes($options);
 
-        return new Expression("<a href='{$href}' {$html}>{$text}</a>");
+        return html("<a href='{$href}' {$html}>{$text}</a>");
     }
 }
 
@@ -181,23 +205,23 @@ if (! function_exists('form_select')) {
      * @param string $selected
      * @param array $options
      * @param string $baseSelect
-     * @return Expression
+     * @return HtmlString
      * @author Joshua
      */
     function form_select($value_text = [], $selected = null, $options = [], $baseSelect = "Select All")
     {
         $attributes = options_to_html_attributes($options);
 
-        $options_tags[] = new Expression("<option value='' selected >{$baseSelect}</option>");
+        $options_tags[] = html("<option value='' selected >{$baseSelect}</option>");
 
         foreach ($value_text as $value => $text) {
             $is_selected      = $selected == $value ? 'selected' : '';
-            $options_tags[]   = new Expression("<option value='{$value}' {$is_selected}>{$text}</option>");
+            $options_tags[]   = html("<option value='{$value}' {$is_selected}>{$text}</option>");
         }
 
         $html = implode('', $options_tags);
 
-        return new Expression("<select {$attributes}>{$html}</select>");
+        return html("<select {$attributes}>{$html}</select>");
     }
 }
 
@@ -206,13 +230,15 @@ if (! function_exists('form_label'))
     /**
      * @param string $text
      * @param array $options
-     * @return Expression
+     * @return HtmlString
      * @author Joshua
      */
     function form_label($text = '', $options = [])
     {
         $attributes = options_to_html_attributes($options);
 
-        return new Expression("<label {$attributes}>{$text}</label>");
+        return html("<label {$attributes}>{$text}</label>");
     }
 }
+
+
