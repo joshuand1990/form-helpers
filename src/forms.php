@@ -225,8 +225,7 @@ if (! function_exists('form_select')) {
     }
 }
 
-if (! function_exists('form_label'))
-{
+if (! function_exists('form_label')) {
     /**
      * @param string $text
      * @param array $options
@@ -241,4 +240,36 @@ if (! function_exists('form_label'))
     }
 }
 
+if (! function_exists('alert')) {
+    /**
+     * @param string $type
+     * @param $text
+     * @return \Illuminate\Support\HtmlString
+     */
+    function alert($text, $type = '')
+    {
+        return html("<div class='alert alert-$type'>$text</div>");
+    }
+}
 
+if(! function_exists('alert_warning')){
+    /**
+     * @param $text
+     * @return HtmlString
+     */
+    function alert_warning($text)
+    {
+        return alert($text, "warning");
+    }
+}
+
+if(! function_exists('alert_danger')){
+    /**
+     * @param $text
+     * @return HtmlString
+     */
+    function alert_danger($text)
+    {
+        return alert($text, "danger");
+    }
+}
