@@ -273,3 +273,121 @@ if(! function_exists('alert_danger')){
         return alert($text, "danger");
     }
 }
+
+if(! function_exists('square_anchor')){
+
+    /**
+     * @param string $href
+     * @param string $text
+     * @param array $options
+     * @return HtmlString
+     */
+    function square_anchor($href = "#", $text = 'square anchor', $options = [])
+    {
+        return anchor($href, "[ $text ]", $options);
+    }
+}
+
+if(! function_exists('hidden_field')) {
+    /**
+     * @param $name
+     * @param $value
+     * @return HtmlString
+     */
+    function hidden_field($name, $value)
+    {
+        return new HtmlString('<input type="hidden" name="' . $name . '" value="'. $value .'">');
+    }
+}
+
+if(! function_exists('table_start')) {
+    /**
+     * @param array $class
+     * @param array $options
+     * @return HtmlString
+     */
+    function table_start($class = [], $options = [])
+    {
+        $attributes = options_to_html_attributes(array_except($options, ['class']));
+        $class = implode(" ", $class);
+        return html("<table class='$class' $attributes>");
+    }
+}
+
+if(! function_exists('table_end')) {
+    /**
+     * @return HtmlString
+     */
+    function table_end()
+    {
+        return html("</table>");
+    }
+}
+
+if(! function_exists('table_non_responsive_start')) {
+    /**
+     * @param array $class
+     * @param $options
+     * @return HtmlString
+     */
+    function table_non_responsive_start($class = ['table', 'table-hovers', 'table-condensed', 'table-bordered', 'table-striped', 'table-non-responsive'], $options = [])
+    {
+        return table_start($class, $options);
+    }
+}
+
+if(! function_exists('table_search_start')) {
+    /**
+     * @param array $class
+     * @param array $options
+     * @return HtmlString
+     */
+    function table_search_start($class = ['table', 'table-non-responsive', 'breadcrumb'], $options = [])
+    {
+        return table_start($class, $options);
+    }
+}
+
+if(! function_exists('table_caption')) {
+    /**
+     * @param $text
+     * @param array $options
+     * @return HtmlString
+     */
+    function table_caption($text, $options = [])
+    {
+        $attributes = options_to_html_attributes($options);
+        return html("<caption $attributes><h6>$text</h6></caption>");
+    }
+}
+
+if(! function_exists('table_header')) {
+
+    /**
+     * @param array $headings
+     * @return HtmlString
+     */
+    function table_simple_header(array $headings)
+    {
+        $headings = array_map(function($heading) {
+            return "<th>$heading</th>";
+        }, $headings);
+        $headings = implode(" ", $headings);
+        return html("<thead><tr>{{ $headings }}</tr></thead>");
+    }
+}
+
+if(! function_exists('table_simple_row')) {
+    /**
+     * @param array $columns
+     * @return HtmlString
+     */
+    function table_simple_row(array $columns)
+    {
+        $columns = array_map(function($column) {
+            return "<td>$column</td>";
+        }, $columns);
+        $row = implode(" ", $columns);
+        return html("<tr>{{ $row }}</tr>");
+    }
+}
