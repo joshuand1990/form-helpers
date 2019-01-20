@@ -373,7 +373,7 @@ if(! function_exists('table_header')) {
             return "<th>$heading</th>";
         }, $headings);
         $headings = implode(" ", $headings);
-        return html("<thead><tr>{{ $headings }}</tr></thead>");
+        return html("<thead><tr>$headings</tr></thead>");
     }
 }
 
@@ -388,6 +388,6 @@ if(! function_exists('table_simple_row')) {
             return "<td>$column</td>";
         }, $columns);
         $row = implode(" ", $columns);
-        return html("<tr>{{ $row }}</tr>");
+        return html("<tr>$row</tr>");
     }
 }
