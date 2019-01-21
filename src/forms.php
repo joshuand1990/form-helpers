@@ -361,7 +361,7 @@ if(! function_exists('table_caption')) {
     }
 }
 
-if(! function_exists('table_header')) {
+if(! function_exists('table_simple_header')) {
 
     /**
      * @param array $headings
